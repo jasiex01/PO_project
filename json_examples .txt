@@ -1,0 +1,73 @@
+Uzytkownik payload
+{
+    "TypUzytkownika": "regular",
+    "Login": "johndoe",
+    "Haslo": "password",
+    "Email": "johndoe@example.com",
+    "ImieNazwisko": "John Doe",
+    "Saldo": 20.50
+}
+
+Hotele payload
+{
+    "WlascicielHotelu": 2,
+    "Nazwa": "Hotel Example",
+    "Opis": "Nice and cozy hotel located in the city center"
+}
+
+Pokoje payload
+{
+    "IdHotelu": 2,
+    "IloscDoroslych": 2,
+    "IloscDzieci": 1,
+    "Balkon": 1,
+    "Klimatyzacja": 1,
+    "Minibar": 1,
+    "Lazienka": 1,
+    "Czajnik": 1,
+    "Wifi": 1,
+    "Telewizor": 1
+}
+
+Adresy payload
+
+{
+    "IdHotelu": 2,
+    "KodPocztowy": "11-111",
+    "Miasto": "City",
+    "Numer": 11,
+    "Ulica": "Street"
+}
+
+Oceny payload
+{
+    "IdHotelu": 2,
+    "IdUzytkownika": 3,
+    "Data": "2022-01-01",
+    "Gwiazdki": 4,
+    "Opis": "Nice hotel, great location"
+}
+
+Rabaty payload
+{
+    "NrRabatu": 123123,
+    "Status": 1,
+    "Obnizka": 0.2,
+    "DataWaznosci": "2022-12-31"
+}
+
+Rezerwacje payload
+{
+    "IdKlienta": 3,
+    "Cena": 200.0,
+    "DataDokonaniaRezerwacji": "2022-05-01",
+    "DataStartuPobytu": "2022-05-10",
+    "IloscNoclegow": 7
+}
+
+Rezerwacje pokojow payload
+{
+    "NrRezerwacji": 1,
+    "IdPokoju": 2
+}
+
