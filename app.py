@@ -4,6 +4,12 @@ import logic
 
 app = Flask(__name__)
 
+# do testow
+VALUES = [(None, "Pod akacjami", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam aliquet tortor quis nulla sollicitudin, vitae aliquet ante pulvinar. Nam ultricies laoreet posuere. Cras mattis neque ante, a fermentum neque tincidunt in. Cras commodo blandit odio, a varius lorem venenatis eget. Nulla arcu neque, venenatis ac metus nec, pulvinar volutpat tellus. Integer in aliquam nisi, nec mollis urna. Vivamus volutpat nunc eget tellus aliquet, in hendrerit urna semper. Donec elit justo, dapibus sed luctus sit amet, rhoncus ac nunc. Integer commodo justo nec posuere iaculis. Nunc viverra eros et dui pharetra, ut interdum orci molestie."),
+        (None, "Różany zaułek", "Curabitur at turpis magna. Proin rhoncus nisl quis libero bibendum tempor vitae volutpat sapien. Integer arcu risus, malesuada non convallis eu, commodo a justo. Sed sed feugiat erat. Nam sodales ex sem, sit amet tincidunt sem tincidunt quis. Nunc convallis auctor tortor a aliquet. Duis id auctor nulla, sit amet varius lectus. Quisque dictum, neque eu fringilla porttitor, ipsum odio dictum nulla, id maximus tellus mauris a sapien. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque euismod placerat mauris ac porta. Nunc consectetur ipsum at velit mollis laoreet."),
+        (None, "Kasztanowe noclegi", "Morbi vel nisl convallis, dignissim quam sit amet, consequat leo. Etiam blandit mi tellus, vitae pretium velit aliquam vel. Phasellus ipsum arcu, faucibus a risus a, convallis scelerisque felis. Suspendisse finibus non turpis sit amet semper. Quisque scelerisque justo vitae mauris consectetur, eget pretium purus efficitur. Nam a commodo urna. In sed odio fringilla, pharetra enim at, malesuada leo."),
+        (None, "Spa & Deluxe", "Vivamus posuere ex sed tristique suscipit. Nulla scelerisque, eros et lacinia blandit, diam nisl scelerisque velit, eget faucibus est justo ac ipsum. Curabitur in lorem sem. Fusce sit amet sapien volutpat, lobortis lacus eget, tincidunt turpis. Curabitur vitae aliquam quam. Ut ut libero velit. Cras ac nisi posuere, elementum augue ut, placerat dolor. Vivamus ullamcorper mauris ex, quis ultricies risus venenatis non. Quisque consequat tortor ac felis eleifend, id elementum lorem tincidunt. Nunc porttitor vitae nunc non scelerisque.")]
+
 def connect_db():
     return sqlite3.connect('C:/Users/herna/PycharmProjects/aplikacja_hotel/test.db')
 
@@ -16,13 +22,8 @@ def hello():
     return render_template('hello.html')
 
 @app.route('/hotelsRate')
-def hotelsRate():
-    values = [(None, "Pod akacjami", "To jest najswpanialszy hotel na świecie."),
-              (None, "Pod akacjami2", "To jest najswpanialszy hotel na świecie."),
-              (None, "Pod akacjami3", "To jest najswpanialszy hotel na świecie."),
-              (None, "Pod akacjami4", "To jest najswpanialszy hotel na świecie.")]
-    
-    return render_template('hotelsRate.html', hotels=values)
+def hotelsRate():    
+    return render_template('hotelsRate.html', hotels=VALUES)
 
 @app.route('/hotels')
 def hotels():
