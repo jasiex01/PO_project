@@ -1,0 +1,9 @@
+Na ten moment sa podstawowe strony. 
+Najlepiej powinna dzialac hotelsRate z ocenianiem hoteli.
+Albo zaczac od hotelsRemoveReservation, tez wydaje sie nieskomplikowana.
+
+Priorytet do zrobienia
+-POST, odbieranie wysyłanych wiadomości z formularzy
+-oblsuga gwiazdek(* * * * *)
+-teraz wprowadzanie danych jest tylko dla hotels.html trzeba przerobic dla reszty
+-ogarnac zdjecia dla hotelView 
