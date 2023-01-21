@@ -1,28 +1,51 @@
 <!DOCTYPE html>
-{% extends "hotels.html" %}
-{%block title %} Oceń hotele {%endblock%}
-{% block actionButton %}
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Usuń rezerwację
-    </button>
+{% extends "base.html" %}
+{%block title %} Usuń rezerwacje {%endblock%}
+{%block content %}
+<h1 class="h1 m-2">Twoje rezerwacje</h1>
+    <br/>
 
-  <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Wystawienie oceny</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body" style="font-stretch: expanded;">
-          Rezerwacja usunięta
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal -->
-{% endblock actionButton %}
+    <!--Tutaj jakos podana lista z hotelami-->
+    <ul class="list-group">
+        {% for hotel in hotels %}
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col">
+                    <img src="static/noPhoto.jpg" class="fixed-im img-thumbnail" alt="...">
+                </div>
+                <div class="col-8">
+                    <p class="fw-bold">{{hotel[1]}}</p>
+                    <p style="width:50%">
+                        {{hotel[2]}}
+                    </p>
+                </div>
+                <div class="col align-items-center my-auto text-center">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Usuń rezerwację
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Wystawienie oceny</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="font-stretch: expanded;">
+                  Rezerwacja usunięta
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok</button>
+                </div>
+                </div>
+                </div>
+                </div>
+                <!-- Modal -->
+                </div>
+            </div>            
+        </li>
+    {% endfor %}
+    </ul>
+{%endblock content%}

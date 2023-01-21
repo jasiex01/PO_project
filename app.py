@@ -63,7 +63,7 @@ def hotelView():
 
 @app.route('/hotelsRemoveReservation')
 def hotelRemoveReservation():
-    return render_template('hotelsRemoveReservation.html')
+    return render_template('hotelsRemoveReservation.html', hotels=VALUES)
 
 @app.route('/insert_user', methods=['POST'])
 def insert_user():
