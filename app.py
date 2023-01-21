@@ -61,8 +61,12 @@ def hotelsSelect():
 def hotelView():
     return render_template('hotelView.html')
 
-@app.route('/hotelsRemoveReservation')
+@app.route('/hotelsRemoveReservation', methods=['GET', 'POST'])
 def hotelRemoveReservation():
+    if request.method == 'POST':        
+        hotelToDelete = request.form["delete"]
+        print(hotelToDelete)
+        
     return render_template('hotelsRemoveReservation.html', hotels=VALUES)
 
 @app.route('/insert_user', methods=['POST'])

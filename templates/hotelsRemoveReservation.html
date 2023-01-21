@@ -9,6 +9,7 @@
     <ul class="list-group">
         {% for hotel in hotels %}
         <li class="list-group-item">
+          <form method="post">
             <div class="row">
                 <div class="col">
                     <img src="static/noPhoto.jpg" class="fixed-im img-thumbnail" alt="...">
@@ -21,8 +22,9 @@
                 </div>
                 <div class="col align-items-center my-auto text-center">
                 <!-- Button trigger modal -->
+                <button type="submit" class="btn btn-danger" name="delete" value="{{hotel[1]}}">Usuń od razu</button>
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Usuń rezerwację
+                Usuń rezerwację (modal, nie dziala)
                 </button>
 
                 <!-- Modal -->
@@ -34,17 +36,19 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="font-stretch: expanded;">
-                  Rezerwacja usunięta
+                  Czy na pewno chcesz usunąć?
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                  <button type="submit" class="btn btn-primary" name="delete" value="{{hotel[1]}}">Tak</button>
                 </div>
                 </div>
                 </div>
                 </div>
                 <!-- Modal -->
                 </div>
-            </div>            
+            </div>      
+          </form>      
         </li>
     {% endfor %}
     </ul>
