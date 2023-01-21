@@ -27,6 +27,19 @@ def hello():
 def hotelsRate():    
     return render_template('hotelsRate.html', hotels=VALUES)
 
+@app.route('/hotelsRateConfirm', methods=['GET', 'POST'])
+def hotelsRateConfirm():
+    if request.method == 'POST':
+        name = request.form["name"]
+        
+        print(request.form["name"])
+        print(request.form["email"])
+        return render_template('hotelsRateConfirm.html', name=name)
+
+    return render_template('hotelsRateConfirm.html')
+    
+    
+
 @app.route('/hotels')
 def hotels():
     return render_template('hotels.html')
