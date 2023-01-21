@@ -23,8 +23,13 @@ def index():
 def hello():
     return render_template('hello.html')
 
-@app.route('/hotelsRate')
+@app.route('/hotelsRate', methods=['GET', 'POST'])
 def hotelsRate():    
+    if request.method == 'POST':       
+        description = request.form["description"]
+        stars = request.form["stars"]
+        print("desc=" , description, "stars=", stars)
+        
     return render_template('hotelsRate.html', hotels=VALUES)
 
 @app.route('/hotelsRateConfirm', methods=['GET', 'POST'])
