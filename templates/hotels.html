@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{%block title %} {%endblock%}
+{%block content %}
+<h1 class="h1 m-2">Moje odwiedzone hotele</h1>
+    <br/>
+    <br/>
+
+    <table class="table m-2">
+        <tr>
+          <!--
+            <th>Zdjecie</th>
+            <th>Opis</th>
+            <th>Przycisk</th>
+          -->
+        </tr>
+
+        <!--Tutaj jakos podana lista z hotelami-->
+        {% for _ in range(0, 10) %}
+        <tr>
+            <th>
+                <img src="static/noPhoto.jpg" class="fixed-im img-thumbnail" alt="...">
+            </th>
+            <th>
+                <p style="width:50%">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus error adipisci hic odio! Deleniti vero asperiores rem magnam eius ipsa nobis praesentium iste, non cupiditate saepe inventore eaque cumque exercitationem.
+                </p>
+            </th>
+            <th style="width:15%" class="align-items-center">
+                {% block actionButton %}
+                    
+                {% endblock actionButton %}
+            </th>
+          </tr>
+        {% endfor %}
+
+    </table>
+{%endblock content%}
