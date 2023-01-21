@@ -17,7 +17,12 @@ def hello():
 
 @app.route('/hotelsRate')
 def hotelsRate():
-    return render_template('hotelsRate.html')
+    values = [(None, "Pod akacjami", "To jest najswpanialszy hotel na świecie."),
+              (None, "Pod akacjami2", "To jest najswpanialszy hotel na świecie."),
+              (None, "Pod akacjami3", "To jest najswpanialszy hotel na świecie."),
+              (None, "Pod akacjami4", "To jest najswpanialszy hotel na świecie.")]
+    
+    return render_template('hotelsRate.html', hotels=values)
 
 @app.route('/hotels')
 def hotels():

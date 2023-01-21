@@ -7,15 +7,16 @@
 
     <!--Tutaj jakos podana lista z hotelami-->
     <ul class="list-group">
-        {% for _ in range(0, 10) %}
+        {% for hotel in hotels %}
         <li class="list-group-item">
             <div class="row">
                 <div class="col">
                     <img src="static/noPhoto.jpg" class="fixed-im img-thumbnail" alt="...">
                 </div>
                 <div class="col-8">
+                    <p class="fw-bold">{{hotel[1]}}</p>
                     <p style="width:50%">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus error adipisci hic odio! Deleniti vero asperiores rem magnam eius ipsa nobis praesentium iste, non cupiditate saepe inventore eaque cumque exercitationem.
+                        {{hotel[2]}}
                     </p>
                 </div>
                 <div class="col align-items-center my-auto text-center">
