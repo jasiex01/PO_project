@@ -25,7 +25,11 @@ def hello():
 
 @app.route('/hotelsRate', methods=['GET', 'POST'])
 def hotelsRate():    
-    if request.method == 'POST':       
+    if request.method == 'POST':
+        if "hotel" in request.form:
+            print("JEST!!!", request.form["hotel"])
+        else:
+            print("NIE MA")      
         description = request.form["description"]
         stars = request.form["stars"]
         print("desc=" , description, "stars=", stars)
