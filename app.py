@@ -31,6 +31,10 @@ def hotelsSelect():
 def hotelView():
     return render_template('hotelView.html')
 
+@app.route('/hotelsRemoveReservation')
+def hotelRemoveReservation():
+    return render_template('hotelsRemoveReservation.html')
+
 @app.route('/insert_user', methods=['POST'])
 def insert_user():
     data = request.get_json()
