@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{%block title %} Hotel {%endblock%}
+{%block content %}
+<div class="container">
+    <div class="row">
+      <div class="col-4 " style="background-color: red;">
+        <h1>Nazwa Hotelu</h1>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius molestias porro aut pariatur officiis laudantium iusto quos inventore nulla sapiente velit facere saepe neque eos corrupti consequatur ad, necessitatibus itaque.</p>
+        <p>Ocena użytkowników</p>
+    </div>
+      <div class="col-8" style="background-color: green;">
+        <div class="row">
+            <div class="col-8" style="background-color: yellow;">
+                photo
+            </div>
+            <div class="col-4" style="background-color: yellowgreen;">
+                photo
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="row" style="background-color: gray;">
+        <div class="col-8" style="background-color: red;">
+            <h1>Pokoje</h1>
+            <ul class="list-group">
+                {% for _ in range(0, 10) %}
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col">
+                            <img src="static/noPhoto.jpg" class="fixed-im img-thumbnail" alt="...">
+                        </div>
+                        <div class="col-8">
+                            <p style="width:50%">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus error adipisci hic odio! Deleniti vero asperiores rem magnam eius ipsa nobis praesentium iste, non cupiditate saepe inventore eaque cumque exercitationem.
+                            </p>
+                        </div>
+                    </div>            
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="col-4" style="background-color: green;">
+            <ul class="list-group">
+                {% for _ in range(0, 10) %}
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col">
+                            <img src="static/noPhoto.jpg" class="fixed-im img-thumbnail" alt="...">
+                        </div>
+                        <div class="col-8">
+                            <p class="fst-italic fs-6">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus error adipisci hic odio! Deleniti vero asperiores rem magnam eius ipsa no
+                            </p>
+                        </div>
+                    </div>            
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{%endblock content%}
