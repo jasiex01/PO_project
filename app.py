@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, request
+from flask import Flask, request, render_template
 import logic
 
 app = Flask(__name__)
@@ -9,7 +9,13 @@ def connect_db():
 
 @app.route('/')
 def index():
-    return "Hello, World!"
+    return "Hello, Worldy!"
+
+@app.route('/hello')
+def hello():
+    #name = "here is your name"
+    name = None
+    return render_template('hello.html')
 
 @app.route('/insert_user', methods=['POST'])
 def insert_user():
@@ -171,4 +177,4 @@ def insert_reservation_room():
     return "Reservation room created."
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
