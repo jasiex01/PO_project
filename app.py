@@ -17,6 +17,12 @@ def hello():
     name = None
     return render_template('hello.html')
 
+@app.route('/hotelsRate')
+def hotelsRate():
+    #name = "here is your name"
+    name = None
+    return render_template('hotelsRate.html')
+
 @app.route('/insert_user', methods=['POST'])
 def insert_user():
     data = request.get_json()
