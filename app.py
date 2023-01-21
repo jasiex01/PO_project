@@ -13,15 +13,19 @@ def index():
 
 @app.route('/hello')
 def hello():
-    #name = "here is your name"
-    name = None
     return render_template('hello.html')
 
 @app.route('/hotelsRate')
 def hotelsRate():
-    #name = "here is your name"
-    name = None
     return render_template('hotelsRate.html')
+
+@app.route('/hotels')
+def hotels():
+    return render_template('hotels.html')
+
+@app.route('/hotelsSelect')
+def hotelsSelect():
+    return render_template('hotelsSelect.html')
 
 @app.route('/insert_user', methods=['POST'])
 def insert_user():
