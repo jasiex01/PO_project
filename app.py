@@ -72,10 +72,14 @@ def hotels():
 
 @app.route('/hotelsSelect')
 def hotelsSelect():
-    return render_template('hotelsSelect.html')
+    return render_template('hotelsSelect.html', hotels=VALUES)
 
-@app.route('/hotelView')
-def hotelView():
+@app.route('/hotelView/<hotel_id>')
+def hotelView(hotel_id=None):
+    
+    # co jeśli hotel_id nie jest już w bazie danych?
+    
+    print("hotel_id =", hotel_id)
     return render_template('hotelView.html')
 
 @app.route('/hotelsRemoveReservation', methods=['GET', 'POST'])

@@ -2,27 +2,31 @@
 {% extends "base.html" %}
 {%block title %} {%endblock%}
 {%block content %}
-<h1 class="h1 m-2"></h1>
-    <br/>
 
-    <!--Tutaj jakos podana lista z hotelami-->
-    <div class="list-group">
-        {% for _ in range(0, 10) %}
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="row">
-                <div class="col">
-                    <img src="static/noPhoto.jpg" class="fixed-im img-thumbnail" alt="...">
-                </div>
-                <div class="col-8">
-                    <p style="width:50%">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus error adipisci hic odio! Deleniti vero asperiores rem magnam eius ipsa nobis praesentium iste, non cupiditate saepe inventore eaque cumque exercitationem.
-                    </p>
-                </div>
-                <div class="col align-items-center my-auto text-center">       
-                </div>
+<h1 class="h1 m-2">Hotele do wyboru</h1>
+
+<br/>
+
+<!--Tutaj jakos podana lista z hotelami-->
+<div class="list-group">
+    {% for hotel in hotels %}
+    <a href="{{ url_for('hotelView', hotel_id = hotel[0]) }}" class="list-group-item list-group-item-action">
+        <div class="row">
+            <div class="col">
+                <img src="static/noPhoto.jpg" class="fixed-im img-thumbnail" alt="...">
             </div>
-       
-        </a>
+            <div class="col-8">
+                <p class="fw-bold">{{hotel[1]}}</p>
+                <p style="width:50%">
+                    {{hotel[2]}}
+                </p>
+            </div>
+            <div class="col align-items-center my-auto text-center">       
+            </div>
+        </div>
+    
+    </a>
     {% endfor %}
-    </div>
+</div>
+
 {%endblock content%}
