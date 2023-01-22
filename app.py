@@ -93,10 +93,17 @@ def hotelView(hotel_id=None):
     
     if request.method == 'POST':
         print("POST")
-        print("room_id = ", request.form["room_id"])
+        room_id = request.form["room_id"]
+        date = request.form["room_id"]
+        days = request.form["days"]
+        discount_code = request.form["discount_code"]
+        
+        print(request.form)
+        
+    #TODO: db operations
     
-    
-    print("hotel_id =", hotel_id)
+    #TODO: Dominik, jesli popupy zadzialaja po POST, to pododawac
+    #TODO: jakis rodzaj walidacji
     
     return render_template('hotelView.html', hotel=DEFALUT_HOTELS[0], average=3,  rooms=DEFAULT_ROOMS, rates=DEFAULT_RATES)
 
