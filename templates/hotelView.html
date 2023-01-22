@@ -78,6 +78,7 @@
         </div>
         <div class="col-4">
             <ul class="list-group">
+            {% if rates %} <!-- sprawdzam czy sa oceny -->
                 {% for rate in rates %}
                 <li class="list-group-item">
                     <div class="row">
@@ -98,7 +99,12 @@
                         </div>
                     </div>            
                 </li>
-            {% endfor %}
+                {% endfor %}
+            {% else %} <!-- jezeli nie ma ocen -->
+                <div class="col">
+                    <h3>Brak ocen</h3>
+                </div>
+            {% endif %}
             </ul>
         </div>
     </div>
