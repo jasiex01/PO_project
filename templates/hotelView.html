@@ -31,7 +31,7 @@
         <div class="col-8"><div class="list-group">
             <h1>Pokoje</h1>
             {% for room in rooms %}
-            <button data-bs-toggle="modal" data-bs-target="#exampleModal" href="#" class="list-group-item list-group-item-action">
+            <button data-bs-toggle="modal" data-bs-target="#modal{{room[0]}}" class="list-group-item list-group-item-action">
                 <div class="row">
                     <div class="col">
                         {{room[1]}}
@@ -46,27 +46,31 @@
             </button>
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Wystawienie oceny</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <form method="post" id="form{{room[0]}}">
+                <input type="hidden" name="room_id" value="{{room[0]}}">
+                <div class="modal fade" id="modal{{room[0]}}" tabindex="-1" aria-labelledby="modalLabel{{room[0]}}" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalLabel{{room[0]}}">Wystawienie oceny</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="font-stretch: expanded;">
+                        <p>Wybierz datę przyjazdu</p>
+                        <p>Podaj ilość dni</p>
+                        
+                        <p>Wprowadź kod rabatowy</p>
+                        
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" id="submit{{room[0]}}" class="btn btn-primary">Save changes</button>
+                        </div>
                     </div>
-                    <div class="modal-body" style="font-stretch: expanded;">
-                    <p>Wybierz datę przyjazdu</p>
-                    <p>Podaj ilość dni</p>
-                    
-                    <p>Wprowadź kod rabatowy</p>
-                    
-                    </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
-                </div>
-            </div>
+            </form>
+            
             <!-- Modal -->
         {% endfor %}
         </div>

@@ -87,10 +87,14 @@ def hotels():
 def hotelsSelect():
     return render_template('hotelsSelect.html', hotels=DEFALUT_HOTELS)
 
-@app.route('/hotelView/<hotel_id>')
-def hotelView(hotel_id=None):
-    
+@app.route('/hotelView/<hotel_id>', methods=['GET', 'POST'])
+def hotelView(hotel_id=None):    
     # co jeśli hotel_id nie jest już w bazie danych?
+    
+    if request.method == 'POST':
+        print("POST")
+        print("room_id = ", request.form["room_id"])
+    
     
     print("hotel_id =", hotel_id)
     
