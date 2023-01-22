@@ -65,7 +65,7 @@ def hotels():
 
 @app.route('/hotelsSelect')
 def hotelsSelect():
-    return render_template('hotelsSelect.html')
+    return render_template('hotelsSelect.html', hotels=VALUES)
 
 @app.route('/hotelView')
 def hotelView():
