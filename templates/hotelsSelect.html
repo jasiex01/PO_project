@@ -10,7 +10,7 @@
 <!--Tutaj jakos podana lista z hotelami-->
 <div class="list-group">
     {% for hotel in hotels %}
-    <a href="#" class="list-group-item list-group-item-action">
+    <a href="{{ url_for('hotelView', hotel_id = hotel[0]) }}" class="list-group-item list-group-item-action">
         <div class="row">
             <div class="col">
                 <img src="static/noPhoto.jpg" class="fixed-im img-thumbnail" alt="...">
