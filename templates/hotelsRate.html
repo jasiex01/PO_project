@@ -22,7 +22,7 @@
 
 <!-- Button trigger modal -->
 <form method="post" id="form{{loop.index}}">
-  <input type="hidden" name="hotel" value="{{hotel[1]}}">
+  <input type="hidden" name="hotel_id" value="{{hotel[0]}}">
 <button type="button" id="makeRateButton{{loop.index}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{loop.index}}" name="hotel" value="{{hotel[1]}}">
   {{loop.index}}
   Wystaw ocenę "{{hotel[1]}}"
