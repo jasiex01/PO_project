@@ -84,9 +84,10 @@ def hotelRemoveReservation():
         if lastTimeToCancel > now:
             c.execute("DELETE FROM rezerwacje WHERE NrRezerwacji=?", (reservationToDelete,))
             c.execute("DELETE FROM rezerwacje_pokojow WHERE NrRezerwacji=?", (reservationToDelete,))
+            #TODO success popup
         else:
             print("Nie da się usunąć rezerwacji")
-            #TODO popup
+            #TODO fal popup
 
 
     c.execute("SELECT rezerwacje.NrRezerwacji, Nazwa, Opis FROM hotele INNER JOIN pokoje ON hotele.IdHotelu = pokoje.IdHotelu INNER JOIN rezerwacje_pokojow ON pokoje.IdPokoju = rezerwacje_pokojow.IdPokoju INNER JOIN rezerwacje ON rezerwacje_pokojow.NrRezerwacji = rezerwacje.NrRezerwacji   WHERE IdKlienta = 2") #podawanie id na sztywno - nie mamy logowania
