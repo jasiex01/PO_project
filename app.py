@@ -9,7 +9,7 @@ def add_to_tables():
     conn = connect_db()
     c = conn.cursor()
     c.execute("UPDATE rezerwacje SET DataStartuPobytu=? WHERE NrRezerwacji=?", ("25.01.2023", 4))
-
+    #c.execute("DELETE FROM oceny WHERE 1=1")
     conn.commit()
     conn.close()
     return 'Success'
@@ -33,18 +33,25 @@ def hello():
     return render_template('hello.html')
 
 @app.route('/hotelsRate', methods=['GET', 'POST'])
-def hotelsRate():    
+def hotelsRate():
+    conn = connect_db()
+    c = conn.cursor()
     if request.method == 'POST':     
         hotel_id = request.form["hotel_id"]
         description = request.form["description"]
         stars = request.form["stars"]
         print("hotel_id=", hotel_id, "| desc=" , description, "| stars=", stars)
-        
-        # TODO: Jasiex, add rate to db
-        
+        date = datetime.now()
+        stringDate = str(date.day) + '.' + str(date.month) + '.' + str(date.year)
+        c.execute("INSERT INTO oceny (IdHotelu,IdUzytkownika,Data,Gwiazdki,Opis) VALUES (?,?,?,?,?)",
+                  (hotel_id, 2, stringDate, stars, description)) #id uzytkownika na sztywno (2)
+        conn.commit()
         # TODO: Domcio, popup if add rate was successful (later)
-        
-    return render_template('hotelsRate.html', hotels=VALUES)
+    #select hotele gdzie uzytkownik mial rezerwacje
+    c.execute("SELECT hotele.IdHotelu, Nazwa, Opis FROM hotele INNER JOIN pokoje ON hotele.IdHotelu = pokoje.IdHotelu INNER JOIN rezerwacje_pokojow ON pokoje.IdPokoju = rezerwacje_pokojow.IdPokoju INNER JOIN rezerwacje ON rezerwacje_pokojow.NrRezerwacji = rezerwacje.NrRezerwacji   WHERE IdKlienta = 2")  # podawanie id na sztywno - nie mamy logowania
+    rows = c.fetchall()
+    conn.close()
+    return render_template('hotelsRate.html', hotels=rows)
 
 @app.route('/hotelsRateConfirm', methods=['GET', 'POST'])
 def hotelsRateConfirm():
