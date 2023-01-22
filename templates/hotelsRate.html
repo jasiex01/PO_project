@@ -23,7 +23,7 @@
 <!-- Button trigger modal -->
 <form method="post" id="form{{loop.index}}">
   <input type="hidden" name="hotel" value="{{hotel[1]}}">
-<button type="button" id="makeRateButton{{loop.index}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" name="hotel" value="{{hotel[1]}}">
+<button type="button" id="makeRateButton{{loop.index}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{loop.index}}" name="hotel" value="{{hotel[1]}}">
   {{loop.index}}
   Wystaw ocenę "{{hotel[1]}}"
 </button>
@@ -54,7 +54,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
-        <button type="button" class="btn btn-primary" id="submit{{loop.index}}">Wystaw ocenę</button>
+        <button type="submit" class="btn btn-primary" id="submit{{loop.index}}">Wystaw ocenę</button>
       </div>
 
     </div>
