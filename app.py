@@ -1,10 +1,18 @@
 import sqlite3
 from flask import Flask, request, render_template
+from datetime import datetime, timedelta
 import logic
 
 app = Flask(__name__)
 
+def add_to_tables():
+    conn = connect_db()
+    c = conn.cursor()
+    c.execute("UPDATE rezerwacje SET DataStartuPobytu=? WHERE NrRezerwacji=?", ("25.01.2023", 4))
 
+    conn.commit()
+    conn.close()
+    return 'Success'
 
 # do testow
 VALUES = [(None, "Pod akacjami", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam aliquet tortor quis nulla sollicitudin, vitae aliquet ante pulvinar. Nam ultricies laoreet posuere. Cras mattis neque ante, a fermentum neque tincidunt in. Cras commodo blandit odio, a varius lorem venenatis eget. Nulla arcu neque, venenatis ac metus nec, pulvinar volutpat tellus. Integer in aliquam nisi, nec mollis urna. Vivamus volutpat nunc eget tellus aliquet, in hendrerit urna semper. Donec elit justo, dapibus sed luctus sit amet, rhoncus ac nunc. Integer commodo justo nec posuere iaculis. Nunc viverra eros et dui pharetra, ut interdum orci molestie."),
@@ -17,6 +25,7 @@ def connect_db():
 
 @app.route('/')
 def index():
+    add_to_tables()
     return "Hello, Worldy!"
 
 @app.route('/hello')
@@ -63,11 +72,29 @@ def hotelView():
 
 @app.route('/hotelsRemoveReservation', methods=['GET', 'POST'])
 def hotelRemoveReservation():
-    if request.method == 'POST':        
-        hotelToDelete = request.form["delete"]
-        print(hotelToDelete)
-        
-    return render_template('hotelsRemoveReservation.html', hotels=VALUES)
+
+    conn = connect_db()
+    c = conn.cursor()
+    if request.method == 'POST':
+        reservationToDelete = request.form["delete"]
+        c.execute("SELECT DataStartuPobytu FROM rezerwacje WHERE NrRezerwacji=?",(reservationToDelete,))
+        startDate = c.fetchone()[0].strip()
+        lastTimeToCancel = datetime.strptime(startDate, '%d.%m.%Y') - timedelta(days=7)
+        now = datetime.now()
+        if lastTimeToCancel > now:
+            c.execute("DELETE FROM rezerwacje WHERE NrRezerwacji=?", (reservationToDelete,))
+            c.execute("DELETE FROM rezerwacje_pokojow WHERE NrRezerwacji=?", (reservationToDelete,))
+        else:
+            print("Nie da się usunąć rezerwacji")
+            #TODO popup
+
+
+    c.execute("SELECT rezerwacje.NrRezerwacji, Nazwa, Opis FROM hotele INNER JOIN pokoje ON hotele.IdHotelu = pokoje.IdHotelu INNER JOIN rezerwacje_pokojow ON pokoje.IdPokoju = rezerwacje_pokojow.IdPokoju INNER JOIN rezerwacje ON rezerwacje_pokojow.NrRezerwacji = rezerwacje.NrRezerwacji   WHERE IdKlienta = 2") #podawanie id na sztywno - nie mamy logowania
+    rows = c.fetchall()
+    #print(rows)
+    conn.commit()
+    conn.close()
+    return render_template('hotelsRemoveReservation.html', hotels=rows)
 
 @app.route('/insert_user', methods=['POST'])
 def insert_user():

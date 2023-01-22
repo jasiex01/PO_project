@@ -15,3 +15,4 @@ def add_user(typ_uzytkownika, login, haslo, email, imienazwisko, saldo):
     post_json('http://localhost:5000/insert_user', json_data)
 
 #TODO add to other tables
+

@@ -1,0 +1,88 @@
+c.execute("INSERT INTO hotele (WlascicielHotelu, Nazwa, Opis) VALUES (?, ?, ?)", (1, "Pod akacjami", "Hotel Pod akacjami położony jest około 1,5 km od dworca kolejowego Wrocław Główny. Oferuje on pokoje z bezpłatnym bezprzewodowym dostępem do Internetu. Piękne Stare Miasto znajduje się 2,5 km od obiektu. Pokoje w hotelu Pod akacjami są klimatyzowane i oferują nowoczesne wnętrza utrzymane w ciepłej kolorystyce. W każdym pokoju znajduje się telewizor z płaskim ekranem oraz łazienka. Każdego ranka w hotelowej jadalni serwowane jest śniadanie w formie bufetu. Hotel położony jest tuż przy międzynarodowej trasie E67, zaledwie 750 metrów od parku wodnego."))
+    c.execute("INSERT INTO hotele (WlascicielHotelu, Nazwa, Opis) VALUES (?, ?, ?)", (1, "Różany zaułek", "Obiekt Różany zaułek położony jest we Wrocławiu, zaledwie kilka kroków od rzeźby Krasnala Życzliwka i 100 metrów od ratusza. W okolicy panują doskonałe warunki do jazdy na rowerze. Budynek dzieli krótki spacer od Rynku Głównego. Na miejscu można korzystać z bezpłatnego WiFi. Apartament mieści sypialnię, kompleksowo urządzony aneks kuchenny z lodówką i płytą kuchenną oraz łazienkę z prysznicem. Wyposażenie obejmuje telewizor z płaskim ekranem. Pościel i ręczniki są zapewnione. Do pobliskich atrakcji należy Galeria Dominikańska, Ostrów Tumski oraz Panorama Racławicka. Odległość od wrocławskiego lotniska im. Mikołaja Kopernika wynosi 11 km. Za dodatkową opłatą organizowany jest transfer lotniskowy."))
+    c.execute("INSERT INTO hotele (WlascicielHotelu, Nazwa, Opis) VALUES (?, ?, ?)", (1, "Kasztanowe noclegi", "Obiekt Kasztanowe noclegi położony jest we Wrocławiu, 100 metrów od centrum handlowego Galeria Dominikańska. Oferuje on w pełni wyposażone apartamenty z bezpłatnym WiFi.Wszystkie apartamenty są klimatyzowane. Każdy z nich zapewnia aneks kuchenny z lodówką i czajnikiem oraz balkon i/lub patio z widokiem na ogród bądź miasto.Rano można zjeść śniadanie kontynentalne.Na miejscu działa kasyno.Panorama Racławicka oddalona jest od obiektu o 500 metrów, a Muzeum Narodowe – o 5 minut spacerem. Odległość od lotniska Wrocław-Strachowice wynosi 13 km."))
+    c.execute("INSERT INTO hotele (WlascicielHotelu, Nazwa, Opis) VALUES (?, ?, ?)", (1,"Spa & Deluxe", "Trzygwiazdkowy hotel Spa & Deluxe położony jest w pobliżu centrum miasta, w odległości około 750 metrów od dworca kolejowego Wrocław Główny i około 2 km od pięknego Rynku we Wrocławiu. Na miejscu można korzystać z bezpłatnego WiFi oraz parkingu.Klimatyzowane pokoje w hotelu Spa & Deluxe są elegancko urządzone w nowoczesnym stylu. Każdy wyposażony jest w telewizor z płaskim ekranem i dostępem do kanałów kablowych. W łazience znajduje się suszarka do włosów. Goście mogą spożyć posiłek w lokalu Le Restaurant i zrelaksować się przy drinku w barze Lounge. Hotel położony jest tuż przy międzynarodowej trasie E67 i w odległości zaledwie 400 metrów od parku wodnego."))
+    c.execute("INSERT INTO hotele (WlascicielHotelu, Nazwa, Opis) VALUES (?, ?, ?)", (1,"Jazz Market Square","Obiekt Hotel Jazz Market Square Wroclaw położony jest w dogodnej lokalizacji w miejscowości Wrocław i oferuje bezpłatne WiFi we wszystkich pomieszczeniach. Na miejscu serwowane jest śniadanie w formie bufetu. Oferta obiektu obejmuje całodobową recepcję oraz restaurację. Na terenie obiektu znajduje się prywatny parking. W pobliżu obiektu Hotel Jazz Market Square Wroclaw znajdują się liczne atrakcje, takie jak Ratusz, Rynek we Wrocławiu i Życzliwek Gnome. Najbliższe lotnisko, Lotnisko Wrocław, znajduje się 9 km od obiektu Hotel Jazz Market Square Wroclaw."))
+    c.execute("INSERT INTO hotele (WlascicielHotelu, Nazwa, Opis) VALUES (?, ?, ?)", (1,"Park Hotel Diament", "Park Hotel Diament Wrocław**** to nowoczesny, klimatyzowany, biznesowy hotel we Wrocławiu, położony zaledwie 10 minut jazdy samochodem od historycznego centrum miasta oraz Portu Lotniczego Wrocław. Lokalizacja hotelu w pobliżu autostrady A4 oraz zachodniej obwodnicy Wrocławia A8 umożliwia łatwy dojazd z kierunków Kraków, Poznań czy Berlin, jak również stanowi doskonałą bazę wypadową do zwiedzania licznych zabytków i atrakcji Wrocławia."))
+    c.execute("INSERT INTO hotele (WlascicielHotelu, Nazwa, Opis) VALUES (?, ?, ?)", (1,"Hotel Piast", "Hotel Piast zlokalizowany jest w samym centrum Wrocławia, naprzeciw Dworca Głównego PKP (50 m), w pobliżu Dworca Autobusowego PKS (200 m) oraz centrów handlowych „Arkady Wrocławskie” i „Renoma” (300m), Dolnośląskiego Centrum Filmowego ( 300m), Teatru Muzycznego CAPITOL (150m), Teatru Polskiego i Teatru Lalek ( 500 m), Narodowego Forum Muzyki (700 m) i dużego węzła komunikacji miejskiej, co zapewnia bardzo łatwy dojazd do hotelu i bezproblemową komunikację publiczną ze wszystkimi dzielnicami Wrocławia."))
+    c.execute("INSERT INTO uzytkownicy (TypUzytkownika,Login,Haslo,Email,ImieNazwisko,Saldo) VALUES (?,?,?,?,?,?)",
+              ("klient", "tomtom", "tomtom321", "tomkow@gmail.com", "Tomasz Kowalski", 600))
+
+c.execute(
+        "INSERT INTO pokoje (IdHotelu,IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (2, 2, 2, 1, 0,
+         0, 1, 1, 1, 1))
+    c.execute(
+        "INSERT INTO pokoje (IdHotelu,IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (2, 2, 0, 1, 0,
+         0, 1, 1, 1, 1))
+    c.execute(
+        "INSERT INTO pokoje (IdHotelu,IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (3, 2, 0, 1, 0,
+         0, 1, 1, 1, 1))
+    c.execute(
+        "INSERT INTO pokoje (IdHotelu,IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (3, 2, 2, 1, 0,
+         0, 1, 1, 1, 1))
+    c.execute(
+        "INSERT INTO pokoje (IdHotelu,IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (4, 2, 0, 1, 0,
+         0, 1, 1, 1, 1))
+    c.execute(
+        "INSERT INTO pokoje (IdHotelu,IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (4, 2, 2, 1, 0,
+         0, 1, 1, 1, 1))
+    c.execute(
+        "INSERT INTO pokoje (IdHotelu,IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (5, 2, 0, 1, 0,
+         0, 1, 1, 1, 1))
+    c.execute(
+        "INSERT INTO pokoje (IdHotelu,IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (5, 2, 2, 1, 0,
+         0, 1, 1, 1, 1))
+    c.execute(
+        "INSERT INTO pokoje (IdHotelu,IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (6, 2, 0, 1, 0,
+         0, 1, 1, 1, 1))
+    c.execute(
+        "INSERT INTO pokoje (IdHotelu,IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (6, 2, 2, 1, 0,
+         0, 1, 1, 1, 1))
+    c.execute(
+        "INSERT INTO pokoje (IdHotelu,IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (7, 2, 0, 1, 0,
+         0, 1, 1, 1, 1))
+    c.execute(
+        "INSERT INTO pokoje (IdHotelu,IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (7, 2, 2, 1, 0,
+         0, 1, 1, 1, 1))
+    c.execute(
+        "INSERT INTO pokoje (IdHotelu,IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (8, 2, 0, 1, 0,
+         0, 1, 1, 1, 1))
+    c.execute(
+        "INSERT INTO pokoje (IdHotelu,IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (8, 2, 2, 1, 0,
+         0, 1, 1, 1, 1))
+
+c.execute("INSERT INTO rezerwacje (IdKlienta, Cena, DataDokonaniaRezerwacji, DataStartuPobytu, IloscNoclegow) VALUES (?,?,?,?,?)",
+              (2, 2600, "22.01.2023", "30.04.2023",3))
+    c.execute(
+        "INSERT INTO rezerwacje (IdKlienta, Cena, DataDokonaniaRezerwacji, DataStartuPobytu, IloscNoclegow) VALUES (?,?,?,?,?)",
+        (2, 1200, "02.01.2023", "20.02.2023", 2))
+    c.execute(
+        "INSERT INTO rezerwacje (IdKlienta, Cena, DataDokonaniaRezerwacji, DataStartuPobytu, IloscNoclegow) VALUES (?,?,?,?,?)",
+        (2, 2300, "20.12.2022", "03.03.2023", 4))
+    c.execute(
+        "INSERT INTO rezerwacje (IdKlienta, Cena, DataDokonaniaRezerwacji, DataStartuPobytu, IloscNoclegow) VALUES (?,?,?,?,?)",
+        (2, 4900, "12.01.2023", "17.07.2023", 5))
+
+        c = conn.cursor()
+    c.execute("INSERT INTO rezerwacje_pokojow (NrRezerwacji, IdPokoju) VALUES (?,?)",
+              (2, 2))
+    c.execute("INSERT INTO rezerwacje_pokojow (NrRezerwacji, IdPokoju) VALUES (?,?)",
+              (3, 15))
+    c.execute("INSERT INTO rezerwacje_pokojow (NrRezerwacji, IdPokoju) VALUES (?,?)",
+              (4, 12))
+    c.execute("INSERT INTO rezerwacje_pokojow (NrRezerwacji, IdPokoju) VALUES (?,?)",
+              (5, 10))
