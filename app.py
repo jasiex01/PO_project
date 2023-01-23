@@ -64,18 +64,6 @@ def hotelsRate():
     rows = c.fetchall()
     conn.close()
     return render_template('hotelsRate.html', hotels=rows)
-"""
-@app.route('/hotelsRateConfirm', methods=['GET', 'POST'])
-def hotelsRateConfirm():
-    if request.method == 'POST':
-        name = request.form["name"]
-        
-        print(request.form["name"])
-        print(request.form["email"])
-        return render_template('hotelsRateConfirm.html', name=name)
-
-    return render_template('hotelsRateConfirm.html')
-"""
     
 
 @app.route('/hotels')
@@ -93,6 +81,68 @@ def hotelsSelect():
     conn.close()
     return render_template('hotelsSelect.html', hotels=rows)
 
+@app.route('/hotelsResSelect')
+def hotelsResSelect():
+    conn = connect_db()
+    c = conn.cursor()
+    c.execute("SELECT hotele.IdHotelu, Nazwa, Opis FROM hotele")
+    rows = c.fetchall()
+    # print(rows)
+    conn.commit()
+    conn.close()
+    return render_template('hotelsResSelect.html', hotels=rows)
+
+
+# TO BEDZIE REZERWACJA POKOJU W KOTELU
+@app.route('/hotelResView/<hotel_id>', methods=['GET', 'POST'])
+def hotelResView(hotel_id=None):    
+    # co jeśli hotel_id nie jest już w bazie danych? - jezeli hotelu nie bedzie w bazie danych to nie bedzie sie pokazywal w hotelsSelect
+    #TODO: Dominik zrobic dokonywanie rezerwacji pod innym linkiem, tu jest tylko wsywietlanie ocen
+    if request.method == 'POST':
+        print("POST")
+        room_id = request.form["room_id"]
+        date = request.form["room_id"]
+        days = request.form["days"]
+        discount_code = request.form["discount_code"]
+        
+        print(request.form)
+
+    conn = connect_db()
+    c = conn.cursor()
+    c.execute("SELECT IdOceny, ImieNazwisko, Gwiazdki, oceny.Opis FROM hotele INNER JOIN oceny ON hotele.IdHotelu = oceny.IdHotelu INNER JOIN uzytkownicy ON uzytkownicy.IdUzytkownika = oceny.IdUzytkownika WHERE hotele.IdHotelu = ?", (hotel_id,))
+    ratesRows = c.fetchall()
+    c.execute("SELECT hotele.IdHotelu, Nazwa, Opis FROM hotele WHERE hotele.IdHotelu = ?", (hotel_id,))
+    hotelInfo = c.fetchone()
+    c.execute("SELECT AVG(Gwiazdki) FROM oceny WHERE IdHotelu = ?", (hotel_id,))
+    avgRating = c.fetchone()[0]
+    c.execute("SELECT IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor FROM pokoje WHERE IdHotelu = ?", (hotel_id,))
+    roomsInfo = c.fetchall()
+    roomsArray = []
+    i = 0
+    for room in roomsInfo:
+        roomTuple = ()
+        i = i + 1
+        roomTuple = roomTuple + (str(i), str('Pokój ' + str(i)),)
+        infoArray = []
+        for x in range(7):
+            if room[x+2] == 0:
+                infoArray.append('Nie')
+            else:
+                infoArray.append('Tak')
+
+        text = 'Ilość dorosłych: ' + str(room[0]) + ' Ilość dzieci: ' + str(room[1]) + '<br>Balkon: ' + infoArray[0] + ' Klimatyzacja: ' + infoArray[1] + '<br>Minibar: ' + infoArray[2] + ' Łazienka: ' + infoArray[3] + '<br>Czajnik: ' + infoArray[4] + ' Wi-fi: ' + infoArray[5] + '<br>Telewizor: ' + infoArray[6]
+        roomTuple = roomTuple + (Markup(text),)
+        roomsArray.append(roomTuple)
+
+    print(roomsArray)
+    conn.commit()
+    conn.close()
+    #TODO: Dominik, jesli popupy zadzialaja po POST, to pododawac
+    #TODO: jakis rodzaj walidacji
+
+    return render_template('hotelResView.html', hotel=hotelInfo, average=avgRating,  rooms=roomsArray, rates=ratesRows)
+
+# TO BEDZIE TYLKO WYSWIETLANIE OCEN HOTELU
 @app.route('/hotelView/<hotel_id>', methods=['GET', 'POST'])
 def hotelView(hotel_id=None):    
     # co jeśli hotel_id nie jest już w bazie danych? - jezeli hotelu nie bedzie w bazie danych to nie bedzie sie pokazywal w hotelsSelect
