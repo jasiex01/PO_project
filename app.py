@@ -33,7 +33,7 @@ DEFAULT_RATES = [
 ]
 
 def connect_db():
-    return sqlite3.connect('C:/Users/ghern/PycharmProjects/PO_project/test.db')
+    return sqlite3.connect('test.db')
 
 @app.route('/')
 def index():
