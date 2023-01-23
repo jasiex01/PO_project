@@ -1,7 +1,6 @@
 import sqlite3
 from flask import Flask, request, render_template,Markup
 from datetime import datetime, timedelta
-import logic
 
 app = Flask(__name__)
 
@@ -34,7 +33,7 @@ DEFAULT_RATES = [
 ]
 
 def connect_db():
-    return sqlite3.connect('C:/Users/herna/PycharmProjects/aplikacja_hotel/test.db')
+    return sqlite3.connect('C:/Users/ghern/PycharmProjects/PO_project/test.db')
 
 @app.route('/')
 def index():
@@ -61,7 +60,7 @@ def hotelsRate():
         conn.commit()
         # TODO: Domcio, popup if add rate was successful (later)
     #select hotele gdzie uzytkownik mial rezerwacje
-    c.execute("SELECT hotele.IdHotelu, Nazwa, Opis FROM pokojow.IdPokoju INNER JOIN rezerwacje ON rezerwacje_pokojow.NrRezerwacji = rezerwacje.NrRezerwacji   WHERE IdKlienta = 2")  # podawanie id na sztywno - nie mamy logowania
+    c.execute("SELECT hotele.IdHotelu, Nazwa, Opis FROM hotele INNER JOIN pokoje ON hotele.IdHotelu = pokoje.IdHotelu INNER JOIN rezerwacje_pokojow ON pokoje.IdPokoju = rezerwacje_pokojow.IdPokoju INNER JOIN rezerwacje ON rezerwacje_pokojow.NrRezerwacji = rezerwacje.NrRezerwacji   WHERE IdKlienta = 2")
     rows = c.fetchall()
     conn.close()
     return render_template('hotelsRate.html', hotels=rows)

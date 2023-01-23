@@ -1,4 +1,4 @@
-import requests
+"""import requests
 import json
 
 def post_json(route, json_data):
@@ -16,3 +16,4 @@ def add_user(typ_uzytkownika, login, haslo, email, imienazwisko, saldo):
 
 #TODO add to other tables
 
+"""
