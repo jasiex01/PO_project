@@ -8,7 +8,11 @@ def add_to_tables():
     conn = connect_db()
     c = conn.cursor()
     #c.execute("UPDATE rezerwacje SET DataStartuPobytu=? WHERE NrRezerwacji=?", ("25.01.2023", 4))
-    #c.execute("DELETE FROM hotele WHERE Nazwa='Hotel Example'")
+    #c.execute("INSERT INTO rabaty (NrRabatu,Status,Obnizka,DataWaznosci) VALUES (?,?,?,?)", (1234, 0, 20, "30.12.2023"))
+    #c.execute("INSERT INTO rabaty (NrRabatu,Status,Obnizka,DataWaznosci) VALUES (?,?,?,?)", (1111, 0, 20, "30.12.2023"))
+    #c.execute("INSERT INTO rabaty (NrRabatu,Status,Obnizka,DataWaznosci) VALUES (?,?,?,?)", (2222, 0, 20, "30.12.2023"))
+    #c.execute("INSERT INTO rabaty (NrRabatu,Status,Obnizka,DataWaznosci) VALUES (?,?,?,?)", (3333, 0, 20, "30.12.2023"))
+    #c.execute("INSERT INTO rabaty (NrRabatu,Status,Obnizka,DataWaznosci) VALUES (?,?,?,?)", (4444, 0, 20, "30.12.2023"))
     conn.commit()
     conn.close()
     return 'Success'
@@ -95,67 +99,48 @@ def hotelsResSelect():
 
 # TO BEDZIE REZERWACJA POKOJU W KOTELU
 @app.route('/hotelResView/<hotel_id>', methods=['GET', 'POST'])
-def hotelResView(hotel_id=None):    
-    # co jeśli hotel_id nie jest już w bazie danych? - jezeli hotelu nie bedzie w bazie danych to nie bedzie sie pokazywal w hotelsSelect
-    #TODO: Dominik zrobic dokonywanie rezerwacji pod innym linkiem, tu jest tylko wsywietlanie ocen
+def hotelResView(hotel_id=None):
     if request.method == 'POST':
-        print("POST")
         room_id = request.form["room_id"]
         date = request.form["room_id"]
         days = request.form["days"]
         discount_code = request.form["discount_code"]
-        
-        print(request.form)
+        conn = connect_db()
+        c = conn.cursor()
 
-    conn = connect_db()
-    c = conn.cursor()
-    c.execute("SELECT IdOceny, ImieNazwisko, Gwiazdki, oceny.Opis FROM hotele INNER JOIN oceny ON hotele.IdHotelu = oceny.IdHotelu INNER JOIN uzytkownicy ON uzytkownicy.IdUzytkownika = oceny.IdUzytkownika WHERE hotele.IdHotelu = ?", (hotel_id,))
-    ratesRows = c.fetchall()
-    c.execute("SELECT hotele.IdHotelu, Nazwa, Opis FROM hotele WHERE hotele.IdHotelu = ?", (hotel_id,))
-    hotelInfo = c.fetchone()
-    c.execute("SELECT AVG(Gwiazdki) FROM oceny WHERE IdHotelu = ?", (hotel_id,))
-    avgRating = c.fetchone()[0]
-    c.execute("SELECT IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor FROM pokoje WHERE IdHotelu = ?", (hotel_id,))
-    roomsInfo = c.fetchall()
-    roomsArray = []
-    i = 0
-    for room in roomsInfo:
-        roomTuple = ()
-        i = i + 1
-        roomTuple = roomTuple + (str(i), str('Pokój ' + str(i)),)
-        infoArray = []
-        for x in range(7):
-            if room[x+2] == 0:
-                infoArray.append('Nie')
+        if date != 1 and days != '':
+            cena = 200.0 + 15.0 * float(room_id) + 60.0 * float(days)
+            today = datetime.now().strftime("%d.%m.%Y")
+            if discount_code != '':
+                c.execute("SELECT Obnizka FROM rabaty WHERE NrRabatu=? AND Status = 0 AND dataWaznosci > ? ",(discount_code, today))
+                obnizka = c.fetchall()
+                print(obnizka)
+                if len(obnizka) != 0:
+                    cena = cena - obnizka[0][0]/100.0 * cena
+                    c.execute("INSERT INTO rezerwacje (IdKlienta, Cena, DataDokonaniaRezerwacji, DataStartuPobytu, IloscNoclegow) VALUES (?,?,?,?,?)",(2, cena, today, date, days))
+                    c.execute("INSERT INTO rezerwacje_pokojow (NrRezerwacji,IdPokoju) VALUES (?,?)", (c.lastrowid, room_id))
+                    c.execute("UPDATE rabaty SET Status=1 WHERE NrRabatu=?", (discount_code, ))
+                    print("Dokonano rezerwacji z rabatem")
+                else:
+                    print("Blad rezerwacji") #TODO niepoprawny kod rabatowy
             else:
-                infoArray.append('Tak')
+                c.execute("INSERT INTO rezerwacje (IdKlienta, Cena, DataDokonaniaRezerwacji, DataStartuPobytu, IloscNoclegow) VALUES (?,?,?,?,?)",(2, cena, today, date, days))
+                c.execute("INSERT INTO rezerwacje_pokojow (NrRezerwacji,IdPokoju) VALUES (?,?)", (c.lastrowid, room_id))
+                print("Dokonano rezerwacji")
+        else:
+            print("Blad rezerwacji") #TODO maja byc wprowadzone dane
 
-        text = 'Ilość dorosłych: ' + str(room[0]) + ' Ilość dzieci: ' + str(room[1]) + '<br>Balkon: ' + infoArray[0] + ' Klimatyzacja: ' + infoArray[1] + '<br>Minibar: ' + infoArray[2] + ' Łazienka: ' + infoArray[3] + '<br>Czajnik: ' + infoArray[4] + ' Wi-fi: ' + infoArray[5] + '<br>Telewizor: ' + infoArray[6]
-        roomTuple = roomTuple + (Markup(text),)
-        roomsArray.append(roomTuple)
+        #TODO popupy
+        conn.commit()
+        conn.close()
 
-    print(roomsArray)
-    conn.commit()
-    conn.close()
     #TODO: Dominik, jesli popupy zadzialaja po POST, to pododawac
-    #TODO: jakis rodzaj walidacji
 
-    return render_template('hotelResView.html', hotel=hotelInfo, average=avgRating,  rooms=roomsArray, rates=ratesRows)
+    return render_template('hotelResView.html', hotel=[], average=[],  rooms=DEFAULT_ROOMS, rates=[])
 
 # TO BEDZIE TYLKO WYSWIETLANIE OCEN HOTELU
 @app.route('/hotelView/<hotel_id>', methods=['GET', 'POST'])
-def hotelView(hotel_id=None):    
-    # co jeśli hotel_id nie jest już w bazie danych? - jezeli hotelu nie bedzie w bazie danych to nie bedzie sie pokazywal w hotelsSelect
-    #TODO: Dominik zrobic dokonywanie rezerwacji pod innym linkiem, tu jest tylko wsywietlanie ocen
-    if request.method == 'POST':
-        print("POST")
-        room_id = request.form["room_id"]
-        date = request.form["room_id"]
-        days = request.form["days"]
-        discount_code = request.form["discount_code"]
-        
-        print(request.form)
-
+def hotelView(hotel_id=None):
     conn = connect_db()
     c = conn.cursor()
     c.execute("SELECT IdOceny, ImieNazwisko, Gwiazdki, oceny.Opis FROM hotele INNER JOIN oceny ON hotele.IdHotelu = oceny.IdHotelu INNER JOIN uzytkownicy ON uzytkownicy.IdUzytkownika = oceny.IdUzytkownika WHERE hotele.IdHotelu = ?", (hotel_id,))
