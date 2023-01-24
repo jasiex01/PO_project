@@ -42,11 +42,7 @@ def connect_db():
 @app.route('/')
 def index():
     #add_to_tables()
-    return "Hello, Worldy!"
-
-@app.route('/hello')
-def hello():
-    return render_template('hello.html')
+    return render_template('main.html')
 
 @app.route('/hotelsRate', methods=['GET', 'POST'])
 def hotelsRate():
