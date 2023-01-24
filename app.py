@@ -44,6 +44,13 @@ def index():
     #add_to_tables()
     return render_template('main.html')
 
+@app.route('/stars', methods=['GET', 'POST'])
+def stars():
+    if request.method == 'POST':     
+        print(request.form)
+    #add_to_tables()
+    return render_template('stars.html')
+
 @app.route('/hotelsRate', methods=['GET', 'POST'])
 def hotelsRate():
     conn = connect_db()
