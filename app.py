@@ -56,10 +56,13 @@ def hotelsRate():
     conn = connect_db()
     c = conn.cursor()
     if request.method == 'POST':     
+        
+        print(request.form)
+        
         hotel_id = request.form["hotel_id"]
         description = request.form["description"]
         stars = request.form["stars"]
-        print("hotel_id=", hotel_id, "| desc=" , description, "| stars=", stars)
+        #print("hotel_id=", hotel_id, "| desc=" , description, "| stars=", stars)
         date = datetime.now()
         stringDate = str(date.day) + '.' + str(date.month) + '.' + str(date.year)
         c.execute("INSERT INTO oceny (IdHotelu,IdUzytkownika,Data,Gwiazdki,Opis) VALUES (?,?,?,?,?)",

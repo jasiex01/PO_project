@@ -23,6 +23,9 @@
 <!-- Button trigger modal -->
 <form method="post" id="form{{loop.index}}">
   <input type="hidden" name="hotel_id" value="{{hotel[0]}}">
+  <!--star Input-->
+  <input type="hidden" id="starInput" name="stars" value="3"> 
+
 <button type="button" id="makeRateButton{{loop.index}}" class="btn btn-primary p-2" data-bs-toggle="modal" data-bs-target="#modal{{loop.index}}" name="hotel" value="{{hotel[1]}}">
   Wystaw ocenę
 </button>
@@ -36,15 +39,28 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body m-2" style="font-stretch: expanded;">
-        Twoja ocena 
-        <!--gwiazdki na razie na sztywno-->
-        {% for i in range(0,5) %}
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-        </svg>
-        {% endfor %}
         
-        <input type="number" name="stars" min="1" max="5">
+        <!--gwiazdki na razie na sztywno-->
+        <div class="m-2">
+          Twoja ocena 
+          <svg xmlns="http://www.w3.org/2000/svg" id="star{{loop.index}}1" onclick="starClicked({{loop.index}}, 1)" width="24" height="24" fill="yellow" class="bi bi-star" viewBox="0 0 16 16" fill-opacity="1" stroke="black" stroke-opacity="0.2">
+            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" id="star{{loop.index}}2" onclick="starClicked({{loop.index}}, 2)" width="24" height="24" fill="yellow" class="bi bi-star" viewBox="0 0 16 16" fill-opacity="1" stroke="black" stroke-opacity="0.2">
+            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" id="star{{loop.index}}3" onclick="starClicked({{loop.index}}, 3)" width="24" height="24" fill="yellow" class="bi bi-star" viewBox="0 0 16 16" fill-opacity="1" stroke="black" stroke-opacity="0.2">
+            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" id="star{{loop.index}}4" onclick="starClicked({{loop.index}}, 4)" width="24" height="24" fill="black" class="bi bi-star" viewBox="0 0 16 16" fill-opacity="1" stroke="black" stroke-opacity="0.2">
+            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" id="star{{loop.index}}5" onclick="starClicked({{loop.index}}, 5)" width="24" height="24" fill="black" class="bi bi-star" viewBox="0 0 16 16" fill-opacity="1" stroke="black" stroke-opacity="0.2">
+            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+          </svg>
+        </div>
+        <!--gwiazki-->
+        
         <textarea class="form-control" name="description" rows="3" placeholder="Podziel się swoją opinią"></textarea>        
       </div>
 
@@ -79,5 +95,27 @@
   document.getElementById("submit2").addEventListener("click", function(){
     console.log("submit2");
   });
+
+  var starInput = document.getElementById("starInput");
+  
+  function starClicked(hotelNum, valNum) {
+      var starText = "star" + hotelNum.toString();
+      console.log("TTAAAAKKK");
+
+      starInput.value = valNum;
+
+      for (let i = 1; i < valNum+1; i++) {
+          str = starText + i.toString();
+          console.log(str);
+          document.getElementById(str).style.fill = "yellow";
+      }
+
+      for (let i = valNum+1; i < 6; i++) {
+          str = starText + i.toString();
+          console.log(str);
+          document.getElementById(str).style.fill = "black";
+      }
+      
+  }
 </script>
 {%endblock content%}
