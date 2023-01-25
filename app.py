@@ -142,7 +142,7 @@ def hotelResView(hotel_id=None):
 
     #TODO: Dominik, jesli popupy zadzialaja po POST, to pododawac
 
-    return render_template('hotelResView.html', hotel=[], average=[],  rooms=DEFAULT_ROOMS, rates=[])
+    return render_template('hotelResView.html', hotel=DEFALUT_HOTELS, average=1,  rooms=DEFAULT_ROOMS, rates=DEFAULT_RATES)
 
 # TO BEDZIE TYLKO WYSWIETLANIE OCEN HOTELU
 @app.route('/hotelView/<hotel_id>')
