@@ -109,13 +109,14 @@ def hotelsResSelect():
 # TO BEDZIE REZERWACJA POKOJU W KOTELU
 @app.route('/hotelResView/<hotel_id>', methods=['GET', 'POST'])
 def hotelResView(hotel_id=None):
+    conn = connect_db()
+    c = conn.cursor()
     if request.method == 'POST':
         room_id = request.form["room_id"]
+        print(room_id)
         date = request.form["room_id"]
         days = request.form["days"]
         discount_code = request.form["discount_code"]
-        conn = connect_db()
-        c = conn.cursor()
 
         if date != 1 and days != '':
             cena = 200.0 + 15.0 * float(room_id) + 60.0 * float(days)
@@ -123,7 +124,6 @@ def hotelResView(hotel_id=None):
             if discount_code != '':
                 c.execute("SELECT Obnizka FROM rabaty WHERE NrRabatu=? AND Status = 0 AND dataWaznosci > ? ",(discount_code, today))
                 obnizka = c.fetchall()
-                print(obnizka)
                 if len(obnizka) != 0:
                     cena = cena - obnizka[0][0]/100.0 * cena
                     c.execute("INSERT INTO rezerwacje (IdKlienta, Cena, DataDokonaniaRezerwacji, DataStartuPobytu, IloscNoclegow) VALUES (?,?,?,?,?)",(2, cena, today, date, days))
@@ -139,13 +139,46 @@ def hotelResView(hotel_id=None):
         else:
             print("Blad rezerwacji") #TODO maja byc wprowadzone dane
 
-        #TODO popupy
-        conn.commit()
-        conn.close()
+    c.execute("SELECT IdOceny, ImieNazwisko, Gwiazdki, oceny.Opis FROM hotele INNER JOIN oceny ON hotele.IdHotelu = oceny.IdHotelu INNER JOIN uzytkownicy ON uzytkownicy.IdUzytkownika = oceny.IdUzytkownika WHERE hotele.IdHotelu = ?",(hotel_id,))
+    ratesRows = c.fetchall()
+    c.execute("SELECT hotele.IdHotelu, Nazwa, Opis FROM hotele WHERE hotele.IdHotelu = ?", (hotel_id,))
+    hotelInfo = c.fetchone()
+    c.execute("SELECT AVG(Gwiazdki) FROM oceny WHERE IdHotelu = ?", (hotel_id,))
+    avgRating = c.fetchone()[0]
+    if avgRating:
+        avgRating = (int)(avgRating)
+    else:
+        avgRating = 0
+
+    c.execute("SELECT IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor, IdPokoju FROM pokoje WHERE IdHotelu = ?",(hotel_id,))
+    roomsInfo = c.fetchall()
+    roomsArray = []
+    i = 0
+    for room in roomsInfo:
+        roomTuple = ()
+        i = i + 1
+        roomTuple = roomTuple + (str(room[9]), str('Pokój ' + str(i)),)
+        infoArray = []
+        for x in range(7):
+            if room[x + 2] == 0:
+                infoArray.append('Nie')
+            else:
+                infoArray.append('Tak')
+
+        text = 'Ilość dorosłych: ' + str(room[0]) + ' Ilość dzieci: ' + str(room[1]) + '<br>Balkon: ' + infoArray[
+            0] + ' Klimatyzacja: ' + infoArray[1] + '<br>Minibar: ' + infoArray[2] + ' Łazienka: ' + infoArray[
+                   3] + '<br>Czajnik: ' + infoArray[4] + ' Wi-fi: ' + infoArray[5] + '<br>Telewizor: ' + infoArray[
+                   6]
+        roomTuple = roomTuple + (Markup(text),)
+        roomsArray.append(roomTuple)
+    print(roomsArray)
+    #TODO popupy
+    conn.commit()
+    conn.close()
 
     #TODO: Dominik, jesli popupy zadzialaja po POST, to pododawac
 
-    return render_template('hotelResView.html', hotel=DEFALUT_HOTELS, average=1,  rooms=DEFAULT_ROOMS, rates=DEFAULT_RATES)
+    return render_template('hotelResView.html', hotel=hotelInfo, average=avgRating,  rooms=roomsArray, rates=ratesRows)
 
 # TO BEDZIE TYLKO WYSWIETLANIE OCEN HOTELU
 @app.route('/hotelView/<hotel_id>')
@@ -215,7 +248,6 @@ def hotelRemoveReservation():
             print("Nie da się usunąć rezerwacji")
             
             popup = (True, 'Rezerwacja nie została usunięta.')
-            
 
     c.execute("SELECT rezerwacje.NrRezerwacji, Nazwa, Opis FROM hotele INNER JOIN pokoje ON hotele.IdHotelu = pokoje.IdHotelu INNER JOIN rezerwacje_pokojow ON pokoje.IdPokoju = rezerwacje_pokojow.IdPokoju INNER JOIN rezerwacje ON rezerwacje_pokojow.NrRezerwacji = rezerwacje.NrRezerwacji   WHERE IdKlienta = 2") #podawanie id na sztywno - nie mamy logowania
     rows = c.fetchall()
