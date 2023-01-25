@@ -9,7 +9,7 @@
     <ul class="list-group">
         {% for hotel in hotels %}
         <li class="list-group-item">
-          <form method="post">
+          <form method="post" id="form{{loop.index}}">
             <div class="row">
                 <div class="col">
                     <img src="static/noPhoto.jpg" class="fixed-im img-thumbnail" alt="...">
@@ -22,17 +22,17 @@
                 </div>
                 <div class="col align-items-center my-auto text-center">
                 <!-- Button trigger modal -->
-                <button type="submit" class="btn btn-danger" name="delete" value="{{hotel[0]}}">Usuń od razu</button> <!-- zwracam nr rezerwacji do usuniecia -->
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Usuń rezerwację (modal, nie dziala)
+
+                <button type="button" id class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{loop.index}}">
+                Usuń rezerwację
                 </button>
 
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal" id="modal{{loop.index}}">
                 <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">Wystawienie oceny</h1>
+                  <h1 class="modal-title fs-5" id="exampleModalLabel{{loop.index}}">Usuwanie rezerwacji</h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="font-stretch: expanded;">
@@ -40,7 +40,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
-                  <button type="submit" class="btn btn-primary" name="delete" value="{{hotel[1]}}">Tak</button>
+                  <button type="submit" class="btn btn-danger" name="delete" id="submit{{loop.index}}" value="{{hotel[0]}}">Tak</button>
                 </div>
                 </div>
                 </div>
