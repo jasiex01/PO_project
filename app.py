@@ -145,7 +145,7 @@ def hotelResView(hotel_id=None):
     return render_template('hotelResView.html', hotel=[], average=[],  rooms=DEFAULT_ROOMS, rates=[])
 
 # TO BEDZIE TYLKO WYSWIETLANIE OCEN HOTELU
-@app.route('/hotelView/<hotel_id>', methods=['GET', 'POST'])
+@app.route('/hotelView/<hotel_id>')
 def hotelView(hotel_id=None):
     conn = connect_db()
     c = conn.cursor()
@@ -153,8 +153,14 @@ def hotelView(hotel_id=None):
     ratesRows = c.fetchall()
     c.execute("SELECT hotele.IdHotelu, Nazwa, Opis FROM hotele WHERE hotele.IdHotelu = ?", (hotel_id,))
     hotelInfo = c.fetchone()
-    c.execute("SELECT AVG(Gwiazdki) FROM oceny WHERE IdHotelu = ?", (hotel_id,))
+    c.execute("SELECT AVG(Gwiazdki) FROM oceny WHERE IdHotelu = ?", (hotel_id,)) 
     avgRating = c.fetchone()[0]
+    print(avgRating)
+    if avgRating:
+        avgRating = (int) (avgRating)
+    else:
+        avgRating = 0
+    
     c.execute("SELECT IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor FROM pokoje WHERE IdHotelu = ?", (hotel_id,))
     roomsInfo = c.fetchall()
     roomsArray = []

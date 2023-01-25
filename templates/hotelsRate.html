@@ -24,7 +24,7 @@
 <form method="post" id="form{{loop.index}}">
   <input type="hidden" name="hotel_id" value="{{hotel[0]}}">
   <!--star Input-->
-  <input type="hidden" id="starInput" name="stars" value="3"> 
+  <input type="hidden" id="starInput{{loop.index}}" name="stars" value="3"> 
 
 <button type="button" id="makeRateButton{{loop.index}}" class="btn btn-primary p-2" data-bs-toggle="modal" data-bs-target="#modal{{loop.index}}" name="hotel" value="{{hotel[1]}}">
   Wystaw ocenę
@@ -96,26 +96,26 @@
     console.log("submit2");
   });
 
-  var starInput = document.getElementById("starInput");
-  
   function starClicked(hotelNum, valNum) {
+      var starInput = document.getElementById("starInput" + hotelNum.toString());
       var starText = "star" + hotelNum.toString();
-      console.log("TTAAAAKKK");
+      console.log(starInput);
 
       starInput.value = valNum;
 
       for (let i = 1; i < valNum+1; i++) {
           str = starText + i.toString();
-          console.log(str);
+          //console.log(str);
           document.getElementById(str).style.fill = "yellow";
       }
 
       for (let i = valNum+1; i < 6; i++) {
           str = starText + i.toString();
-          console.log(str);
+          //console.log(str);
           document.getElementById(str).style.fill = "black";
       }
       
+      console.log()
   }
 </script>
 {%endblock content%}
