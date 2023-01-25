@@ -53,6 +53,8 @@ def stars():
 
 @app.route('/hotelsRate', methods=['GET', 'POST'])
 def hotelsRate():
+    popup = (False, '')
+    
     conn = connect_db()
     c = conn.cursor()
     if request.method == 'POST':     
@@ -68,12 +70,13 @@ def hotelsRate():
         c.execute("INSERT INTO oceny (IdHotelu,IdUzytkownika,Data,Gwiazdki,Opis) VALUES (?,?,?,?,?)",
                   (hotel_id, 2, stringDate, stars, description)) #id uzytkownika na sztywno (2)
         conn.commit()
-        # TODO: Domcio, popup if add rate was successful (later)
+        # TODO: Domcio, popup if add rate was successful (later)              
+        popup = (True, 'Pomyślnie dodano nową ocenę.')
     #select hotele gdzie uzytkownik mial rezerwacje
     c.execute("SELECT hotele.IdHotelu, Nazwa, Opis FROM hotele INNER JOIN pokoje ON hotele.IdHotelu = pokoje.IdHotelu INNER JOIN rezerwacje_pokojow ON pokoje.IdPokoju = rezerwacje_pokojow.IdPokoju INNER JOIN rezerwacje ON rezerwacje_pokojow.NrRezerwacji = rezerwacje.NrRezerwacji   WHERE IdKlienta = 2")
     rows = c.fetchall()
     conn.close()
-    return render_template('hotelsRate.html', hotels=rows)
+    return render_template('hotelsRate.html', hotels=rows, popup=popup)
     
 
 @app.route('/hotels')
@@ -188,8 +191,12 @@ def hotelView(hotel_id=None):
 
     return render_template('hotelView.html', hotel=hotelInfo, average=avgRating,  rooms=roomsArray, rates=ratesRows)
 
+# jest blad po usunieciu rezerwacji i probie odswiezenia strony
+# ale nie jest bardzo istotny
 @app.route('/hotelsRemoveReservation', methods=['GET', 'POST'])
 def hotelRemoveReservation():
+    
+    popup = (False, '') # popup
 
     conn = connect_db()
     c = conn.cursor()
@@ -202,9 +209,13 @@ def hotelRemoveReservation():
         if lastTimeToCancel > now:
             c.execute("DELETE FROM rezerwacje WHERE NrRezerwacji=?", (reservationToDelete,))
             c.execute("DELETE FROM rezerwacje_pokojow WHERE NrRezerwacji=?", (reservationToDelete,))
+            
+            popup = (True, 'Rezerwacja została usunięta.')
         else:
             print("Nie da się usunąć rezerwacji")
-            #TODO popup
+            
+            popup = (True, 'Rezerwacja nie została usunięta.')
+            
 
     c.execute("SELECT rezerwacje.NrRezerwacji, Nazwa, Opis FROM hotele INNER JOIN pokoje ON hotele.IdHotelu = pokoje.IdHotelu INNER JOIN rezerwacje_pokojow ON pokoje.IdPokoju = rezerwacje_pokojow.IdPokoju INNER JOIN rezerwacje ON rezerwacje_pokojow.NrRezerwacji = rezerwacje.NrRezerwacji   WHERE IdKlienta = 2") #podawanie id na sztywno - nie mamy logowania
     rows = c.fetchall()
@@ -212,7 +223,7 @@ def hotelRemoveReservation():
     conn.commit()
     conn.close()
     
-    return render_template('hotelsRemoveReservation.html', hotels=rows)
+    return render_template('hotelsRemoveReservation.html', hotels=rows, popup=popup)
 
 if __name__ == '__main__':
     app.run(debug=True)

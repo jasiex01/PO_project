@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {%block title %} Oceń hotele {%endblock%}
+{%block head%}
+<script type="text/javascript">
+  console.log("MESSAGE");
+ window.onload = function() {
+  var popup =  '{{ popup[0] }}';
+  var popup_mes =  '{{ popup[1] }}';
+  
+  if( popup == "True") {
+    alert(popup_mes);
+  }  
+ }
+</script>
+{%endblock%}
 {%block content %}
 
 <h1 class="h1 m-2">Moje odwiedzone hotele</h1>
