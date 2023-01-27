@@ -131,13 +131,13 @@ def hotelResView(hotel_id=None):
                     c.execute("UPDATE rabaty SET Status=1 WHERE NrRabatu=?", (discount_code, ))
                     print("Dokonano rezerwacji z rabatem")
                 else:
-                    print("Blad rezerwacji") #TODO niepoprawny kod rabatowy
+                    print("Blad rezerwacji") #TODO niepoprawny kod rabatowy error popup
             else:
                 c.execute("INSERT INTO rezerwacje (IdKlienta, Cena, DataDokonaniaRezerwacji, DataStartuPobytu, IloscNoclegow) VALUES (?,?,?,?,?)",(2, cena, today, date, days))
                 c.execute("INSERT INTO rezerwacje_pokojow (NrRezerwacji,IdPokoju) VALUES (?,?)", (c.lastrowid, room_id))
                 print("Dokonano rezerwacji")
         else:
-            print("Blad rezerwacji") #TODO maja byc wprowadzone dane
+            print("Blad rezerwacji") #TODO maja byc wprowadzone dane error popup
 
     c.execute("SELECT IdOceny, ImieNazwisko, Gwiazdki, oceny.Opis FROM hotele INNER JOIN oceny ON hotele.IdHotelu = oceny.IdHotelu INNER JOIN uzytkownicy ON uzytkownicy.IdUzytkownika = oceny.IdUzytkownika WHERE hotele.IdHotelu = ?",(hotel_id,))
     ratesRows = c.fetchall()
