@@ -117,10 +117,11 @@ def hotelResView(hotel_id=None):
         date = request.form["date"]
         days = request.form["days"]
         discount_code = request.form["discount_code"]
-        
-        print("REQUEST FORM = ", request.form)
 
         if date != 1 and days != '':
+            date = datetime.strptime(date, "%Y-%m-%d")
+            date = date.strftime("%d.%m.%Y")
+            print(date)
             cena = 200.0 + 15.0 * float(room_id) + 60.0 * float(days)
             today = datetime.now().strftime("%d.%m.%Y")
             if discount_code != '':
