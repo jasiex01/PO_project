@@ -106,17 +106,19 @@ def hotelsResSelect():
     return render_template('hotelsResSelect.html', hotels=rows)
 
 
-# TO BEDZIE REZERWACJA POKOJU W KOTELU
 @app.route('/hotelResView/<hotel_id>', methods=['GET', 'POST'])
 def hotelResView(hotel_id=None):
+    popup = (False, '')
+    
     conn = connect_db()
     c = conn.cursor()
     if request.method == 'POST':
         room_id = request.form["room_id"]
-        print(room_id)
-        date = request.form["room_id"]
+        date = request.form["date"]
         days = request.form["days"]
         discount_code = request.form["discount_code"]
+        
+        print("REQUEST FORM = ", request.form)
 
         if date != 1 and days != '':
             cena = 200.0 + 15.0 * float(room_id) + 60.0 * float(days)
@@ -124,20 +126,25 @@ def hotelResView(hotel_id=None):
             if discount_code != '':
                 c.execute("SELECT Obnizka FROM rabaty WHERE NrRabatu=? AND Status = 0 AND dataWaznosci > ? ",(discount_code, today))
                 obnizka = c.fetchall()
+                print("OBNIZKA: ", obnizka)
                 if len(obnizka) != 0:
                     cena = cena - obnizka[0][0]/100.0 * cena
                     c.execute("INSERT INTO rezerwacje (IdKlienta, Cena, DataDokonaniaRezerwacji, DataStartuPobytu, IloscNoclegow) VALUES (?,?,?,?,?)",(2, cena, today, date, days))
                     c.execute("INSERT INTO rezerwacje_pokojow (NrRezerwacji,IdPokoju) VALUES (?,?)", (c.lastrowid, room_id))
                     c.execute("UPDATE rabaty SET Status=1 WHERE NrRabatu=?", (discount_code, ))
                     print("Dokonano rezerwacji z rabatem")
+                    popup = (True, "Dokonano rezerwacji z rabatem")
                 else:
-                    print("Blad rezerwacji") #TODO niepoprawny kod rabatowy error popup
+                    print("Blad rezerwacji")
+                    popup = (True, "Niepoprawny kod rabatowy")
             else:
                 c.execute("INSERT INTO rezerwacje (IdKlienta, Cena, DataDokonaniaRezerwacji, DataStartuPobytu, IloscNoclegow) VALUES (?,?,?,?,?)",(2, cena, today, date, days))
                 c.execute("INSERT INTO rezerwacje_pokojow (NrRezerwacji,IdPokoju) VALUES (?,?)", (c.lastrowid, room_id))
                 print("Dokonano rezerwacji")
+                popup = (True, "Pomyślnie dokonano rezerwacji")
         else:
-            print("Blad rezerwacji") #TODO maja byc wprowadzone dane error popup
+            print("Blad rezerwacji")
+            popup = (True, "Powinny być wprowadzone dane")
 
     c.execute("SELECT IdOceny, ImieNazwisko, Gwiazdki, oceny.Opis FROM hotele INNER JOIN oceny ON hotele.IdHotelu = oceny.IdHotelu INNER JOIN uzytkownicy ON uzytkownicy.IdUzytkownika = oceny.IdUzytkownika WHERE hotele.IdHotelu = ?",(hotel_id,))
     ratesRows = c.fetchall()
@@ -178,7 +185,7 @@ def hotelResView(hotel_id=None):
 
     #TODO: Dominik, jesli popupy zadzialaja po POST, to pododawac
 
-    return render_template('hotelResView.html', hotel=hotelInfo, average=avgRating,  rooms=roomsArray, rates=ratesRows)
+    return render_template('hotelResView.html', hotel=hotelInfo, average=avgRating,  rooms=roomsArray, rates=ratesRows, popup=popup)
 
 # TO BEDZIE TYLKO WYSWIETLANIE OCEN HOTELU
 @app.route('/hotelView/<hotel_id>')
