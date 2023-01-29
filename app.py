@@ -190,6 +190,17 @@ def createRoomArray(roomsInfo):
         roomsArray.append(roomTuple)
     return roomsArray
 
+def starsToNum(starsText):
+    stars_dic = {
+        'jedna gwiazdka': 1,
+        'dwie gwiazdki': 2,
+        'trzy gwiazdki': 3,
+        'cztery gwiazdki': 4,
+        'piec gwiazdek': 5
+    }
+    
+    return stars_dic[starsText]
+
 @app.route('/hotelView/<hotel_id>')
 def hotelView(hotel_id=None):
     conn = connect_db()
