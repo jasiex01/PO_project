@@ -160,12 +160,22 @@ def hotelResView(hotel_id=None):
 
     c.execute("SELECT IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor, IdPokoju FROM pokoje WHERE IdHotelu = ?",(hotel_id,))
     roomsInfo = c.fetchall()
+    roomsArray = createRoomArray(roomsInfo)
+    print(roomsArray)
+    #TODO popupy
+    conn.commit()
+    conn.close()
+
+
+    return render_template('hotelResView.html', hotel=hotelInfo, average=avgRating,  rooms=roomsArray, rates=ratesRows, popup=popup)
+
+def createRoomArray(roomsInfo):
     roomsArray = []
     i = 0
     for room in roomsInfo:
         roomTuple = ()
         i = i + 1
-        roomTuple = roomTuple + (str(room[9]), str('Pokój ' + str(i)),)
+        roomTuple = roomTuple + (str(i), str('Pokój ' + str(i)),)
         infoArray = []
         for x in range(7):
             if room[x + 2] == 0:
@@ -175,20 +185,11 @@ def hotelResView(hotel_id=None):
 
         text = 'Ilość dorosłych: ' + str(room[0]) + ' Ilość dzieci: ' + str(room[1]) + '<br>Balkon: ' + infoArray[
             0] + ' Klimatyzacja: ' + infoArray[1] + '<br>Minibar: ' + infoArray[2] + ' Łazienka: ' + infoArray[
-                   3] + '<br>Czajnik: ' + infoArray[4] + ' Wi-fi: ' + infoArray[5] + '<br>Telewizor: ' + infoArray[
-                   6]
+                   3] + '<br>Czajnik: ' + infoArray[4] + ' Wi-fi: ' + infoArray[5] + '<br>Telewizor: ' + infoArray[6]
         roomTuple = roomTuple + (Markup(text),)
         roomsArray.append(roomTuple)
-    print(roomsArray)
-    #TODO popupy
-    conn.commit()
-    conn.close()
+    return roomsArray
 
-    #TODO: Dominik, jesli popupy zadzialaja po POST, to pododawac
-
-    return render_template('hotelResView.html', hotel=hotelInfo, average=avgRating,  rooms=roomsArray, rates=ratesRows, popup=popup)
-
-# TO BEDZIE TYLKO WYSWIETLANIE OCEN HOTELU
 @app.route('/hotelView/<hotel_id>')
 def hotelView(hotel_id=None):
     conn = connect_db()
@@ -207,24 +208,9 @@ def hotelView(hotel_id=None):
     
     c.execute("SELECT IloscDoroslych,IloscDzieci,Balkon,Klimatyzacja,Minibar,Lazienka,Czajnik,Wifi,Telewizor FROM pokoje WHERE IdHotelu = ?", (hotel_id,))
     roomsInfo = c.fetchall()
-    roomsArray = []
-    i = 0
-    for room in roomsInfo:
-        roomTuple = ()
-        i = i + 1
-        roomTuple = roomTuple + (str(i), str('Pokój ' + str(i)),)
-        infoArray = []
-        for x in range(7):
-            if room[x+2] == 0:
-                infoArray.append('Nie')
-            else:
-                infoArray.append('Tak')
+    roomsArray = createRoomArray(roomsInfo)
+    print(roomsInfo)
 
-        text = 'Ilość dorosłych: ' + str(room[0]) + ' Ilość dzieci: ' + str(room[1]) + '<br>Balkon: ' + infoArray[0] + ' Klimatyzacja: ' + infoArray[1] + '<br>Minibar: ' + infoArray[2] + ' Łazienka: ' + infoArray[3] + '<br>Czajnik: ' + infoArray[4] + ' Wi-fi: ' + infoArray[5] + '<br>Telewizor: ' + infoArray[6]
-        roomTuple = roomTuple + (Markup(text),)
-        roomsArray.append(roomTuple)
-
-    print(roomsArray)
     conn.commit()
     conn.close()
     #TODO: Dominik, jesli popupy zadzialaja po POST, to pododawac
